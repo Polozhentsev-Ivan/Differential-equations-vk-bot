@@ -1,0 +1,25 @@
+[project]
+name = "diffgeom-agents"
+version = "0.1.0"
+description = "Multi-agent system for solving differential equations via vk-bot"
+requires-python = ">=3.11"
+dependencies = [
+    "sympy>=1.13",
+    "pydantic>=2.0",
+    "crewai>=0.108",
+    "matplotlib>=3.9",
+    "fpdf2>=2.8",
+    "scipy>=1.13",
+    "vk-api>=11.9",
+    "python-dotenv>=1.0",
+    "openai>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
