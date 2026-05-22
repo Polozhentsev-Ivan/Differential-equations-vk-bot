@@ -142,6 +142,17 @@ class DiffEqBot:
             except Exception as exc:
                 log.warning("Failed to send PDF: %s", exc)
                 self.send_text(peer_id, "Решение получено, но не удалось отправить файл.")
+            return
+
+        if result.output_file and Path(result.output_file).exists():
+            try:
+                self.send_doc(peer_id, result.output_file, title="solution.md")
+            except Exception as exc:
+                log.warning("Failed to send Markdown solution: %s", exc)
+                self.send_text(peer_id, "Решение получено, но не удалось отправить файл.")
+            return
+
+        self.send_text(peer_id, "Решение получено, но файл с ответом не найден.")
 
     def run(self) -> None:
         log.info("VK бот запущен, слушаю сообщения...")

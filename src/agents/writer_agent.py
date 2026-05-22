@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from crewai import Agent, LLM
 from openai import OpenAI
 
 from config import LLM_API_KEY, LLM_BASE_URL, LLM_MODEL_HEAVY
@@ -52,6 +53,30 @@ SYSTEM_PROMPT = """\
 
 def _get_client() -> OpenAI:
     return OpenAI(base_url=LLM_BASE_URL, api_key=LLM_API_KEY)
+
+
+def get_llm() -> LLM:
+    return LLM(
+        model=f"openai/{LLM_MODEL_HEAVY}",
+        base_url=LLM_BASE_URL,
+        api_key=LLM_API_KEY,
+        max_tokens=8192,
+    )
+
+
+def create_writer_agent() -> Agent:
+    return Agent(
+        role="Mathematical Solution Writer",
+        goal="Write a clear step-by-step Markdown solution in Russian from verified structured data.",
+        backstory=(
+            "You write detailed student-friendly solutions for differential equations. "
+            "Use the provided SymPy result as the source of truth. "
+            "Return only the Markdown body of the solution, without YAML frontmatter."
+        ),
+        tools=[],
+        llm=get_llm(),
+        verbose=True,
+    )
 
 
 def write_solution(

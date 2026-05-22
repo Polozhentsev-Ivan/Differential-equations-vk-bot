@@ -1,38 +1,21 @@
-import vk_api
-from vk_api.longpoll import VkLongPoll, VkEventType
-import os
-from dotenv import load_dotenv
+"""Compatibility entrypoint for the real VK differential-equation bot.
 
-load_dotenv()
+Historically this file was a tiny echo bot. Keep the filename usable, but
+delegate to src/bot.py so running it exercises the actual MAS pipeline.
+"""
 
-def send_message(vk, user_id, text, random_id=0):
-    vk.messages.send(
-        user_id=user_id,
-        message=text,
-        random_id=random_id
-    )
+from __future__ import annotations
 
-def main():
-    token = os.getenv("VK_KEY")
-    
-    vk_session = vk_api.VkApi(token=token)
-    vk = vk_session.get_api()
-    
-    longpoll = VkLongPoll(vk_session)
+import sys
+from pathlib import Path
 
-    print("Бот запущен и слушает сообщения...")
 
-    for event in longpoll.listen():
-        if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            user_id = event.user_id
-            text = event.text.lower()
-            
-            if text == 'привет':
-                send_message(vk, user_id, "Привет! Я простой бот ВК.")
-            elif text == 'пока':
-                send_message(vk, user_id, "До свидания!")
-            else:
-                send_message(vk, user_id, f"Вы написали: {event.text}")
+ROOT = Path(__file__).resolve().parent
+SRC = ROOT / "src"
+sys.path.insert(0, str(SRC))
 
-if __name__ == '__main__':
+from bot import main  # noqa: E402
+
+
+if __name__ == "__main__":
     main()

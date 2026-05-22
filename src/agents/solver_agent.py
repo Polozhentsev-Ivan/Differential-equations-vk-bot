@@ -7,10 +7,15 @@ from crewai import Agent, LLM
 from config import LLM_API_KEY, LLM_BASE_URL, LLM_MODEL_LIGHT
 from tools.crewai_tools import (
     classify_ode_tool,
+    classify_ode_json_tool,
     compute_isoclines_tool,
+    compute_isoclines_json_tool,
     plot_isoclines_tool,
+    plot_isoclines_json_tool,
     solve_ode_tool,
+    solve_ode_json_tool,
     validate_solution_tool,
+    validate_solution_json_tool,
 )
 
 
@@ -37,10 +42,15 @@ def create_solver_agent() -> Agent:
         ),
         tools=[
             classify_ode_tool,
+            classify_ode_json_tool,
             solve_ode_tool,
+            solve_ode_json_tool,
             validate_solution_tool,
+            validate_solution_json_tool,
             compute_isoclines_tool,
+            compute_isoclines_json_tool,
             plot_isoclines_tool,
+            plot_isoclines_json_tool,
         ],
         llm=get_llm(),
         verbose=True,

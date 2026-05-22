@@ -100,5 +100,6 @@ class PipelineResult(BaseModel):
     plot_file: Optional[str] = None
     parsed_task: Optional[ParsedTask] = None
     solver_result: Optional[SolverResult] = None
+    validation_result: Optional[ValidationResult] = None
     error: Optional[str] = None
     stage_failed: Optional[str] = None
